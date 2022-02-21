@@ -1,0 +1,42 @@
+
+importFrom("utils", "read.table", "write.table")
+importFrom("fields", "tim.colors")
+importFrom("graphics", ".filled.contour", "abline", "axTicks", "axis",
+           "box", "boxplot", "contour", "image", "layout", "mtext",
+           "par", "text")
+
+export(readCoords)
+export(readCoordsMap)
+export(readCoordsWind)
+
+export(getAWSTimeRange)
+
+export(chartMinAWSData)
+export(chartAggrAWSData)
+export(chartAggrAWSDataSel)
+export(chartWindBarb)
+export(chartWindRose)
+export(openairWindRose)
+export(graphWindContours)
+export(chartRainAccumul)
+
+export(mapMinAWSData)
+export(mapAggrAWSData)
+export(mapHourlyMSLP)
+
+export(tableAWSCoords)
+export(tableAggrAWSData)
+export(tableAggrAWSDataSel)
+
+export(downAWSMinDataCSV)
+export(downTableAggrCSV)
+export(downAWSAggrOneVarCSV)
+export(downTableAggrDataSelCSV)
+export(downAWSAggrCDTDataCSV)
+export(downWindBarbCSV)
+export(downWindFreqCSV)
+export(downHourlyMSLP)
+export(downRainAccumulSP)
+export(downRainAccumulTS)
+
+
