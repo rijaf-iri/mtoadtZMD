@@ -1,6 +1,6 @@
-#' Get AWS 15 minutes spatial data.
+#' Get AWS 30 minutes spatial data.
 #'
-#' Get AWS 15 minutes spatial data to display on map.
+#' Get AWS 30 minutes spatial data to display on map.
 #' 
 #' @param time the time to display in the format "YYYY-MM-DD-HH-MM".
 #' @param aws_dir full path to the directory containing ADT.\cr
@@ -17,7 +17,7 @@ mapMinAWSData <- function(time, aws_dir){
 
     ############
     varO <- sapply(strsplit(spdon$vars, "_"), '[[', 1)
-    varP <- spdon$vars[!varO %in% c("9", "12", "13")]
+    varP <- spdon$vars[!varO %in% c("9", "12", "13", "15")]
 
     outKey <- list()
 
@@ -79,6 +79,16 @@ mapMinAWSData <- function(time, aws_dir){
             ops <- list(var.name = "ST", colorP = 'rainbow')
             ix <- NULL
             vr <- 'ST'
+        }
+        if(x == "16"){
+            ops <- list(var.name = "SPB", colorP = 'rainbow')
+            ix <- NULL
+            vr <- 'SPB'
+        }
+        if(x == "17"){
+            ops <- list(var.name = "SECB", colorP = 'rainbow')
+            ix <- NULL
+            vr <- 'SECB'
         }
 
         ##########
@@ -149,25 +159,20 @@ spatialMinAWSData <- function(time, aws_dir){
 
     qres$value[!is.na(qres$limit_check)] <- NA
 
-    nmVar <- c("network", "id", "height", "var_code",
-                "stat_code", "value", "raw_value")
+    nmVar <- c("network", "id", "height", "var_code", "stat_code", "value")
     qres <- qres[, nmVar, drop = FALSE]
 
     ######
     adcoCrd <- DBI::dbReadTable(conn, "adcon_crds")
     adcoCrd$network <- "Adcon"
-    vaisCrd <- DBI::dbReadTable(conn, "vaisala_crds")
-    vaisCrd$network <- "Vaisala"
-    koicCrd <- DBI::dbReadTable(conn, "koica_crds")
-    koicCrd$network <- "Koica"
+    campCrd <- DBI::dbReadTable(conn, "campbell_crds")
+    campCrd$network <- "Campbell"
 
     DBI::dbDisconnect(conn)
 
     nmCol <- c("id", "name", "longitude", "latitude", "altitude", "network")
-    # crds <- rbind(adcoCrd[, nmCol, drop = FALSE], vaisCrd[, nmCol, drop = FALSE])
     crds <- rbind(adcoCrd[, nmCol, drop = FALSE],
-                  vaisCrd[, nmCol, drop = FALSE],
-                  koicCrd[, nmCol, drop = FALSE])
+                  campCrd[, nmCol, drop = FALSE])
 
     id_net <- rep(NA, nrow(crds))
     id_net[crds$network == "Campbell"] <- 1
@@ -433,18 +438,14 @@ spatialAggrAWS <- function(tstep, time, aws_dir){
     ######
     adcoCrd <- DBI::dbReadTable(conn, "adcon_crds")
     adcoCrd$network <- "Adcon"
-    vaisCrd <- DBI::dbReadTable(conn, "vaisala_crds")
-    vaisCrd$network <- "Vaisala"
-    koicCrd <- DBI::dbReadTable(conn, "koica_crds")
-    koicCrd$network <- "Koica"
+    campCrd <- DBI::dbReadTable(conn, "campbell_crds")
+    campCrd$network <- "Campbell"
 
     DBI::dbDisconnect(conn)
 
     nmCol <- c("id", "name", "longitude", "latitude", "altitude", "network")
-    # crds <- rbind(adcoCrd[, nmCol, drop = FALSE], vaisCrd[, nmCol, drop = FALSE])
     crds <- rbind(adcoCrd[, nmCol, drop = FALSE],
-                  vaisCrd[, nmCol, drop = FALSE],
-                  koicCrd[, nmCol, drop = FALSE])
+                  campCrd[, nmCol, drop = FALSE])
 
     id_net <- rep(NA, nrow(crds))
     id_net[crds$network == "Campbell"] <- 1

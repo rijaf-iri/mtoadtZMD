@@ -73,7 +73,9 @@ defColorKeyOptions <- function(var.name, aws = TRUE, timestep = "minute",
                       "FF" = c(0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 15),
                       "SM" = seq(0, 100, 10),
                       "ST" = seq(-12, 30, 4),
-                      "LWT" = seq(0, 10, 1)
+                      "LWT" = seq(0, 10, 1),
+                      "SPB" = seq(0, 5, 0.5),
+                      "SECB" = seq(0, 1, 0.1)
                      )
         customL <- TRUE
         equidist <- TRUE
