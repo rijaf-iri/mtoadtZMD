@@ -46,15 +46,18 @@ compute_mslp <- function(time, aws_dir){
 
     if(spdon$status != "ok") return(spdon)
 
+    press_avg <- '1_1.5_1'
+    temp_avg <- '2_2_1'
+
     spdon$data <- spdon$data[c('id', 'name', 'longitude', 'latitude',
-                               'altitude', 'network', '1_2_1', '2_2_1')]
-    spdon$data[["1_2_1"]] <- ifelse(spdon$data[["1_2_1"]] == 0, NA, spdon$data[["1_2_1"]])
-    mslp <- mslp_corrections(spdon$data[["1_2_1"]], spdon$data[["2_2_1"]],
+                               'altitude', 'network', press_avg, temp_avg)]
+    spdon$data[[press_avg]] <- ifelse(spdon$data[[press_avg]] == 0, NA, spdon$data[[press_avg]])
+    mslp <- mslp_corrections(spdon$data[[press_avg]], spdon$data[[temp_avg]],
                              spdon$data[["altitude"]], spdon$data[["latitude"]])
     spdon$data$MSLP <- mslp
     nom <- names(spdon$data)
-    nom <- gsub("1_2_1", "PRESAVG", nom)
-    nom <- gsub("2_2_1", "TAVG", nom)
+    nom <- gsub(press_avg, "PRESAVG", nom)
+    nom <- gsub(temp_avg, "TAVG", nom)
     names(spdon$data) <- nom
     spdon$vars <- c('PRESAVG', 'TAVG', 'MSLP')
 
