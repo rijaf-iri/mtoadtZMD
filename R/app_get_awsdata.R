@@ -501,7 +501,7 @@ getWindData <- function(net_aws, height, tstep, start, end, aws_dir)
     if(inherits(conn, "try-error"))
         return(list(status = 'failed-connection'))
 
-    query <- paste0("SELECT obs_time, var_code, value, limit_check FROM aws_data WHERE (",
+    query <- paste0("SELECT obs_time, var_code, value, limit_check FROM aws_data0 WHERE (",
                    "network=", net_aws[1], " AND id='", net_aws[2], "' AND height=", height, 
                    " AND var_code IN (9, 10) AND stat_code=1) AND (",
                    "obs_time >= ", start, " AND obs_time <= ", end, ")")

@@ -4,6 +4,10 @@
     conv <- if(fun == "convolve") TRUE else FALSE
     fun <- match.fun(fun)
     nl <- length(x)
+    if(nl - win + 1  < 0){
+        xx <- rep(NA, nl)
+        return(xx)
+    }
     xna <- xx <- rep(NA, nl - win + 1)
     for(k in seq(nl - win + 1)){
         if(conv){
@@ -49,6 +53,10 @@
 {
     nl <- nrow(x)
     nc <- ncol(x)
+    if(nl - win + 1  < 0){
+        xx <- matrix(NA, nrow = nl, ncol = nc)
+        return(xx)
+    }
     xna <- xx <- matrix(NA, nrow = nl - win + 1, ncol = nc)
 
     foo <- switch(fun,
