@@ -477,7 +477,9 @@ getWindData <- function(net_aws, height, tstep, start, end, aws_dir)
 {
     tz <- Sys.getenv("TZ")
     origin <- "1970-01-01"
+    timestep_aws <- c(10, 15)
 
+    ######
     parsFile <- file.path(aws_dir, "AWS_DATA", "JSON", "aws_parameters.json")
     awsPars <- jsonlite::read_json(parsFile)
 
@@ -487,6 +489,10 @@ getWindData <- function(net_aws, height, tstep, start, end, aws_dir)
 
     istn <- which(net_code == net_aws[1] & aws_id == net_aws[2])
     awsPars <- awsPars[[istn]][c('network_code', 'network', 'id', 'name')]
+
+    height <- strsplit(height, "_")[[1]]
+    ws_hgt <- height[1]
+    wd_hgt <- height[2]
 
     frmt <- if(tstep == "hourly") "%Y-%m-%d-%H" else "%Y-%m-%d-%H-%M"
     start <- strptime(start, frmt, tz = tz)
@@ -501,8 +507,9 @@ getWindData <- function(net_aws, height, tstep, start, end, aws_dir)
     if(inherits(conn, "try-error"))
         return(list(status = 'failed-connection'))
 
+    qheight <- if(ws_hgt == wd_hgt) paste0("=", ws_hgt) else paste0(" IN (", wd_hgt, ", ", ws_hgt, ")")
     query <- paste0("SELECT obs_time, var_code, value, limit_check FROM aws_data0 WHERE (",
-                   "network=", net_aws[1], " AND id='", net_aws[2], "' AND height=", height, 
+                   "network=", net_aws[1], " AND id='", net_aws[2], "' AND height", qheight,
                    " AND var_code IN (9, 10) AND stat_code=1) AND (",
                    "obs_time >= ", start, " AND obs_time <= ", end, ")")
 
@@ -529,8 +536,9 @@ getWindData <- function(net_aws, height, tstep, start, end, aws_dir)
         tstep.out <- 1
     }else{
         dts <- sort(daty)
-        tstep.seq <- '30 min'
-        tstep.out <- 30
+        ts_sec <- timestep_aws[as.integer(net_aws[1])]
+        tstep.seq <- paste(ts_sec, 'min')
+        tstep.out <- ts_sec
     }
 
     daty <- seq(min(dts), max(dts), tstep.seq)

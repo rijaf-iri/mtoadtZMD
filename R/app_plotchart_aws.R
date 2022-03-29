@@ -1,9 +1,10 @@
 
-#' Get 10 or 15 minutes data.
+#' Get minutes data.
 #'
-#' Get 10 or 15 minutes data to display on chart.
+#' Get minutes data to display on chart.
 #' 
-#' @param net_aws the network code and AWS ID, form <network code>_<AWS ID>. AWS network code, 1: campbell, 2: adcon
+#' @param net_aws the network code and AWS ID, form <network code>_<AWS ID>. 
+#' AWS network code, 1: campbell, 2: adcon
 #' @param var_hgt the variable code and observation height, form  <var code>_<height>.
 #' @param stat statistic code.
 #' @param start start time.
@@ -21,7 +22,9 @@ chartMinAWSData <- function(net_aws, var_hgt, stat, start, end,
 {
     tz <- Sys.getenv("TZ")
     origin <- "1970-01-01"
+    timestep_aws <- c(10, 15)
 
+    ###########
     parsFile <- file.path(aws_dir, "AWS_DATA", "JSON", "aws_parameters.json")
     awsPars <- jsonlite::read_json(parsFile)
 
@@ -35,7 +38,6 @@ chartMinAWSData <- function(net_aws, var_hgt, stat, start, end,
 
     istn <- which(net_code == net_aws[1] & aws_id == net_aws[2])
     awsPars <- awsPars[[istn]]
-
     aws_name <- paste0(awsPars$name, " [ID = " , awsPars$id, " ; ", awsPars$network, "]")
 
     var_name <- awsPars$PARS_Info[[var_hgt[1]]][[1]]$name
@@ -127,10 +129,11 @@ chartMinAWSData <- function(net_aws, var_hgt, stat, start, end,
     daty <- as.POSIXct(qres$obs_time, origin = origin, tz = tz)
 
     ddif <- diff(daty)
-    ## missing diff >  15 minutes
-    idt <- which(ddif > 15)
+    miss_diff <- timestep_aws[as.integer(net_aws[1])]
+    ## missing diff > miss_diff minutes
+    idt <- which(ddif > miss_diff)
     if(length(idt) > 0){
-        miss.daty <- daty[idt] + 15 * 60
+        miss.daty <- daty[idt] + miss_diff * 60
         miss.daty <- format(miss.daty, "%Y%m%d%H%M%S", tz = tz)
         daty1 <- rep(NA, length(daty) + length(miss.daty))
         don1 <- data.frame(stat = rep(NA, length(daty1)))
@@ -179,7 +182,8 @@ chartMinAWSData <- function(net_aws, var_hgt, stat, start, end,
 #' Get aggregated data to display on chart for one AWS.
 #' 
 #' @param tstep the time step of the data.
-#' @param net_aws the network code and AWS ID, form <network code>_<AWS ID>. AWS network code, 1: campbell, 2: adcon
+#' @param net_aws the network code and AWS ID, form <network code>_<AWS ID>. 
+#' AWS network code, 1: campbell, 2: adcon
 #' @param var_hgt the variable code and observation height, form  <var code>_<height>.
 #' @param pars statistic name.
 #' @param start start time.
@@ -423,7 +427,8 @@ chartAggrAWSData <- function(tstep, net_aws, var_hgt, pars,
 #' Get aggregated data to display on table.
 #' 
 #' @param tstep the time step of the data.
-#' @param net_aws the network code and AWS ID, form <network code>_<AWS ID>. AWS network code, 1: campbell, 2: adcon
+#' @param net_aws the network code and AWS ID, form <network code>_<AWS ID>. 
+#' AWS network code, 1: campbell, 2: adcon
 #' @param start start date.
 #' @param end end date.
 #' @param aws_dir full path to the directory containing ADT.\cr
@@ -444,7 +449,8 @@ tableAggrAWSData <- function(tstep, net_aws, start, end, aws_dir){
 #' Get aggregated data to display on chart for multiple AWS.
 #' 
 #' @param tstep the time step of the data.
-#' @param net_aws a vector of the network code and AWS ID, form <network code>_<AWS ID>. AWS network code, 1: campbell, 2: adcon
+#' @param net_aws a vector of the network code and AWS ID, form <network code>_<AWS ID>. 
+#' AWS network code, 1: campbell, 2: adcon
 #' @param var_hgt the variable code and observation height, form  <var code>_<height>.
 #' @param pars parameters.
 #' @param start start time.
@@ -666,7 +672,8 @@ chartAggrAWSDataSel <- function(tstep, net_aws, var_hgt, pars,
 #' Get aggregated data to display on table for multiple AWS.
 #' 
 #' @param tstep the time step of the data.
-#' @param net_aws a vector of the network code and AWS ID, form <network code>_<AWS ID>. AWS network code, 1: campbell, 2: adcon
+#' @param net_aws a vector of the network code and AWS ID, form <network code>_<AWS ID>. 
+#' AWS network code, 1: campbell, 2: adcon
 #' @param var_hgt the variable code and observation height, form  <var code>_<height>.
 #' @param pars parameters.
 #' @param start start time.

@@ -9,7 +9,8 @@ downAWSAggrOneVarCSV(tstep, net_aws, var_hgt, start, end, aws_dir)
 \arguments{
 \item{tstep}{the time step of the data.}
 
-\item{net_aws}{the network code and AWS ID, form <network code>_<AWS ID>. AWS network code, 1: campbell, 2: adcon}
+\item{net_aws}{the network code and AWS ID, form <network code>_<AWS ID>. 
+AWS network code, 1: campbell, 2: adcon}
 
 \item{var_hgt}{the variable code and observation height, form  <var code>_<height>.}
 

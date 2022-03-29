@@ -7,7 +7,7 @@
 readCoordsWind(height, aws_dir)
 }
 \arguments{
-\item{height}{height above ground, 2 or 10 meters}
+\item{height}{wind speed and direction heights above ground, format "<speedHeight>_<directionHeight>".}
 
 \item{aws_dir}{full path to the directory containing ADT.\cr
 Example: "D:/ZMD_AWS_v2"}

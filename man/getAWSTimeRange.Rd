@@ -9,7 +9,8 @@ getAWSTimeRange(id, network, aws_dir)
 \arguments{
 \item{id}{ID of the AWS.}
 
-\item{network}{the AWS network code; 1: campbell, 2: adcon.}
+\item{network}{the AWS network code; 
+1: campbell, 2: adcon.}
 
 \item{aws_dir}{full path to the directory containing ADT.\cr
 Example: "D:/ZMD_AWS_v2"}

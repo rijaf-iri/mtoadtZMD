@@ -1,8 +1,9 @@
-#' Get 10 or 15 minutes data.
+#' Get minutes data.
 #'
-#' Get 10 or 15 minutes data for download.
+#' Get minutes data for download.
 #' 
-#' @param net_aws the network code and AWS ID, form <network code>_<AWS ID>. AWS network code, 1: campbell, 2: adcon
+#' @param net_aws the network code and AWS ID, form <network code>_<AWS ID>. 
+#' AWS network code, 1: campbell, 2: adcon
 #' @param var_hgt the variable code and observation height, form  <var code>_<height>.
 #' @param start start time.
 #' @param end end time.
@@ -100,7 +101,8 @@ downAWSMinDataCSV <- function(net_aws, var_hgt, start, end, aws_dir)
 #' Get aggregated data displayed on the table for download.
 #' 
 #' @param tstep the time step of the data.
-#' @param net_aws the network code and AWS ID, form <network code>_<AWS ID>. AWS network code, 1: campbell, 2: adcon
+#' @param net_aws the network code and AWS ID, form <network code>_<AWS ID>. 
+#' AWS network code, 1: campbell, 2: adcon
 #' @param start start date.
 #' @param end end date.
 #' @param aws_dir full path to the directory containing ADT.\cr
@@ -121,7 +123,8 @@ downTableAggrCSV <- function(tstep, net_aws, start, end, aws_dir){
 #' Get aggregated data displayed on the chart for download.
 #' 
 #' @param tstep the time step of the data.
-#' @param net_aws the network code and AWS ID, form <network code>_<AWS ID>. AWS network code, 1: campbell, 2: adcon
+#' @param net_aws the network code and AWS ID, form <network code>_<AWS ID>. 
+#' AWS network code, 1: campbell, 2: adcon
 #' @param var_hgt the variable code and observation height, form  <var code>_<height>.
 #' @param start start date.
 #' @param end end date.
@@ -154,7 +157,8 @@ downAWSAggrOneVarCSV <- function(tstep, net_aws, var_hgt, start, end, aws_dir){
 #' Get aggregated data to download for multiple AWS.
 #' 
 #' @param tstep the time step of the data.
-#' @param net_aws a vector of the network code and AWS ID, form <network code>_<AWS ID>. AWS network code, 1: campbell, 2: adcon
+#' @param net_aws a vector of the network code and AWS ID, form <network code>_<AWS ID>. 
+#' AWS network code, 1: campbell, 2: adcon
 #' @param var_hgt the variable code and observation height, form  <var code>_<height>.
 #' @param pars parameters.
 #' @param start start time.
@@ -234,7 +238,8 @@ downAWSAggrCDTDataCSV <- function(tstep, var_hgt, pars, start, end, aws_dir)
 #' Get wind data for download.
 #' 
 #' @param tstep time step of the data.
-#' @param net_aws the network code and AWS ID, form <network code>_<AWS ID>. AWS network code, 1: campbell, 2: adcon
+#' @param net_aws the network code and AWS ID, form <network code>_<AWS ID>. 
+#' AWS network code, 1: campbell, 2: adcon
 #' @param height the observation height.
 #' @param start start time.
 #' @param end end time.
@@ -270,7 +275,8 @@ downWindBarbCSV <- function(net_aws, height, tstep, start, end, aws_dir)
 #' Get wind frequency for download.
 #' 
 #' @param tstep time step of the data.
-#' @param net_aws the network code and AWS ID, form <network code>_<AWS ID>. AWS network code, 1: campbell, 2: adcon
+#' @param net_aws the network code and AWS ID, form <network code>_<AWS ID>. 
+#' AWS network code, 1: campbell, 2: adcon
 #' @param height the observation height.
 #' @param start start time.
 #' @param end end time.
@@ -356,7 +362,8 @@ downRainAccumulSP <- function(tstep, time, accumul, aws_dir){
 #' Compute precipitation accumulation for download.
 #' 
 #' @param tstep time basis to accumulate the data.
-#' @param net_aws a vector of the network code and AWS ID, form <network code>_<AWS ID>. AWS network code, 1: campbell, 2: adcon
+#' @param net_aws a vector of the network code and AWS ID, form <network code>_<AWS ID>. 
+#' AWS network code, 1: campbell, 2: adcon
 #' @param start start date.
 #' @param end end date.
 #' @param accumul accumulation duration.
@@ -381,3 +388,27 @@ downRainAccumulTS <- function(tstep, net_aws, start, end, accumul, aws_dir){
     return(convCSV(don))
 }
 
+##########
+#' Download AWS status.
+#'
+#' Download AWS status table.
+#' 
+#' @param aws_dir full path to the directory containing ADT.\cr
+#'               Example: "D:/GMet_AWS_v2"
+#' 
+#' @return CSV object
+#' 
+#' @export
+
+downAWSStatusTable <- function(aws_dir){
+    file_stat <- file.path(aws_dir, "AWS_DATA", "STATUS", "aws_status.rds")
+    aws <- readRDS(file_stat)
+
+    crds <- aws$coords
+    daty <- format(aws$time, "%Y-%m-%d %H:00:00")
+    don <- as.data.frame(aws$status)
+    names(don) <- daty
+    don <- cbind(crds, don)
+
+    return(convCSV(don))
+}

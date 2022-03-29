@@ -42,15 +42,16 @@ mapHourlyMSLP <- function(time, aws_dir){
 ## change request in  spatialAggrAWS to get pressure avg (1_2_1) and temp avg (2_2_1) only
 ## use aws_hourly table
 compute_mslp <- function(time, aws_dir){
+    press_avg <- '1_1.5_1'
+    temp_avg <- '2_2_1'
+    nmCrds <- c('id', 'name', 'longitude', 'latitude', 'altitude', 'network')
+
+    ####
     spdon <- spatialAggrAWS("hourly", time, aws_dir)
 
     if(spdon$status != "ok") return(spdon)
 
-    press_avg <- '1_1.5_1'
-    temp_avg <- '2_2_1'
-
-    spdon$data <- spdon$data[c('id', 'name', 'longitude', 'latitude',
-                               'altitude', 'network', press_avg, temp_avg)]
+    spdon$data <- spdon$data[c(nmCrds, press_avg, temp_avg)]
     spdon$data[[press_avg]] <- ifelse(spdon$data[[press_avg]] == 0, NA, spdon$data[[press_avg]])
     mslp <- mslp_corrections(spdon$data[[press_avg]], spdon$data[[temp_avg]],
                              spdon$data[["altitude"]], spdon$data[["latitude"]])

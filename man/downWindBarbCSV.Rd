@@ -7,7 +7,8 @@
 downWindBarbCSV(net_aws, height, tstep, start, end, aws_dir)
 }
 \arguments{
-\item{net_aws}{the network code and AWS ID, form <network code>_<AWS ID>. AWS network code, 1: campbell, 2: adcon}
+\item{net_aws}{the network code and AWS ID, form <network code>_<AWS ID>. 
+AWS network code, 1: campbell, 2: adcon}
 
 \item{height}{the observation height.}
 

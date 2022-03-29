@@ -2,12 +2,13 @@
 % Please edit documentation in R/app_download_awsdata.R
 \name{downAWSMinDataCSV}
 \alias{downAWSMinDataCSV}
-\title{Get 10 or 15 minutes data.}
+\title{Get minutes data.}
 \usage{
 downAWSMinDataCSV(net_aws, var_hgt, start, end, aws_dir)
 }
 \arguments{
-\item{net_aws}{the network code and AWS ID, form <network code>_<AWS ID>. AWS network code, 1: campbell, 2: adcon}
+\item{net_aws}{the network code and AWS ID, form <network code>_<AWS ID>. 
+AWS network code, 1: campbell, 2: adcon}
 
 \item{var_hgt}{the variable code and observation height, form  <var code>_<height>.}
 
@@ -22,5 +23,5 @@ Example: "D:/ZMD_AWS_v2"}
 JSON format object
 }
 \description{
-Get 10 or 15 minutes data for download.
+Get minutes data for download.
 }

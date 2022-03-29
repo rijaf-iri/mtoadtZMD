@@ -9,7 +9,8 @@ downRainAccumulTS(tstep, net_aws, start, end, accumul, aws_dir)
 \arguments{
 \item{tstep}{time basis to accumulate the data.}
 
-\item{net_aws}{a vector of the network code and AWS ID, form <network code>_<AWS ID>. AWS network code, 1: campbell, 2: adcon}
+\item{net_aws}{a vector of the network code and AWS ID, form <network code>_<AWS ID>. 
+AWS network code, 1: campbell, 2: adcon}
 
 \item{start}{start date.}
 
